@@ -1,33 +1,28 @@
-# 🤖 Makine Öğrenmesi Algoritmaları Koleksiyonu
+# 🛰️ Nesne Algılama ve Gelişmiş Takip Sistemleri (Object Tracking)
 
-Bu depo, makine öğrenmesinin temel taşlarını oluşturan çeşitli algoritmaların Python ve Scikit-Learn kullanılarak gerçekleştirilmiş uygulamalarını içerir. Proje; sınıflandırma, regresyon, kümeleme ve veri görselleştirme tekniklerini kapsamaktadır.
+Bu depo, modern bilgisayar görüsü tekniklerini kullanarak nesne algılama (Object Detection) ve çoklu nesne takibi (Multi-Object Tracking) konularında geliştirilmiş kapsamlı Python projelerini içermektedir. Projeler, Windows 11 Pro ortamında ve NVIDIA GPU desteğiyle (Lenovo Gaming PC) optimize edilmiştir.
 
-## 🛠️ Kullanılan Teknolojiler
-* **Python 3.x**
-* **Scikit-Learn:** Algoritma modelleri ve veri işleme.
-* **Pandas & NumPy:** Veri manüpilasyonu ve matris işlemleri.
-* **Matplotlib & Seaborn:** Veri görselleştirme.
 
-## 📁 Proje İçeriği ve Algoritmalar
+## 📁 Proje Modülleri ve Algoritmalar
 
-### 1. Denetimli Öğrenme (Sınıflandırma & Regresyon)
-* **Karar Ağaçları (`decision_tree_...`):** Karmaşıklık analizi ve budama teknikleri ile modelleme.
-* **Lojistik Regresyon (`logistic_regression_...`):** İkili sınıflandırma problemleri üzerine uygulamalar.
-* **Elastic Net (`elastic_net_diabetes.py`):** L1 ve L2 regülarizasyonu ile diyabet verisi tahmini.
-* **Naïve Bayes (`iris_naive_bayes_siniflandirma.py`):** Iris veri seti üzerinde olasılıksal sınıflandırma.
-* **KNN & SVM:** `knn_dt_svm_hyperparam_search.py` ile hiperparametre optimizasyonu.
+### 1. YOLOv8 + Kalman Filtresi (SORT Yaklaşımı)
+**Dosya:** `yolov8_kalman_sort.py`
+* **Teknoloji:** YOLOv8 Algılama + Kalman Filtresi + Macar Algoritması (Linear Sum Assignment).
+* **İşlev:** Her nesneye benzersiz bir ID atar. Kalman Filtresi sayesinde nesnenin hızını ve yönünü matematiksel olarak tahmin ederek akıcı bir takip sağlar.
 
-### 2. Denetimsiz Öğrenme (Kümeleme)
-* **K-Means (`kmeans_kumeleme.py`):** Veri noktalarını benzerliklerine göre gruplandırma.
-* **DBSCAN (`dbscan_circles.py`):** Yoğunluk tabanlı kümeleme ile iç içe geçmiş halka verileri ayrıştırma.
-* **Hiyerarşik Kümeleme (`hiyerarsik_kumeleme.py`):** Dendrogram yapısı ile küme analizi.
+### 2. Re3 Tracker (Derin Öğrenme & LSTM)
+**Dosya:** `re3Algoritması.py`
+* **Teknoloji:** Real-Time Recurrent Regression (Re3) mimarisi.
+* **İşlev:** LSTM katmanları kullanarak nesneyi görsel hafızasıyla takip eder. Nesne kısa süreliğine engellerin arkasında kalsa dahi takibi sürdürme kabiliyetine sahiptir.
 
-### 3. Boyut İndirgeme ve Görselleştirme
-* **PCA (`iris_pca_2d_3d.py`):** Yüksek boyutlu verilerin 2B ve 3B uzayda incelenmesi.
-* **t-SNE (`mnist_tsne_visualization.py`):** Karmaşık veri setlerinin (MNIST vb.) düşük boyutlu görselleştirilmesi.
+### 3. Karşılaştırmalı Analiz (Dual Display)
+**Dosya:** `yolov8KalmanVsYolov8.py`
+* **İşlev:** Standart YOLOv8 algılaması ile Kalman Filtresi entegre edilmiş sistemi aynı anda iki ayrı pencerede kıyaslar. Takip algoritmalarının kararlılık üzerindeki etkisini görselleştirir.
 
-## 🚀 Kurulum ve Çalıştırma
 
-1. Gerekli kütüphaneleri yükleyin:
-   ```bash
-   pip install numpy pandas matplotlib scikit-learn seaborn
+## 🛠️ Teknik Gereksinimler
+
+Sisteminizde aşağıdaki kütüphanelerin yüklü olduğundan emin olun:
+
+```bash
+pip install ultralytics torch opencv-python numpy filterpy scipy
