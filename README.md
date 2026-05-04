@@ -1,28 +1,53 @@
-# 🛰️ Nesne Algılama ve Gelişmiş Takip Sistemleri (Object Tracking)
 
-Bu depo, modern bilgisayar görüsü tekniklerini kullanarak nesne algılama (Object Detection) ve çoklu nesne takibi (Multi-Object Tracking) konularında geliştirilmiş kapsamlı Python projelerini içermektedir. Projeler, Windows 11 Pro ortamında ve NVIDIA GPU desteğiyle (Lenovo Gaming PC) optimize edilmiştir.
+## ⚙️ Kurulum ve Kullanım
 
+Bir bilgisayar mühendisliği projesi standartlarında, kurulumu şu adımlarla gerçekleştirebilirsin:
 
-## 📁 Proje Modülleri ve Algoritmalar
-
-### 1. YOLOv8 + Kalman Filtresi (SORT Yaklaşımı)
-**Dosya:** `yolov8_kalman_sort.py`
-* **Teknoloji:** YOLOv8 Algılama + Kalman Filtresi + Macar Algoritması (Linear Sum Assignment).
-* **İşlev:** Her nesneye benzersiz bir ID atar. Kalman Filtresi sayesinde nesnenin hızını ve yönünü matematiksel olarak tahmin ederek akıcı bir takip sağlar.
-
-### 2. Re3 Tracker (Derin Öğrenme & LSTM)
-**Dosya:** `re3Algoritması.py`
-* **Teknoloji:** Real-Time Recurrent Regression (Re3) mimarisi.
-* **İşlev:** LSTM katmanları kullanarak nesneyi görsel hafızasıyla takip eder. Nesne kısa süreliğine engellerin arkasında kalsa dahi takibi sürdürme kabiliyetine sahiptir.
-
-### 3. Karşılaştırmalı Analiz (Dual Display)
-**Dosya:** `yolov8KalmanVsYolov8.py`
-* **İşlev:** Standart YOLOv8 algılaması ile Kalman Filtresi entegre edilmiş sistemi aynı anda iki ayrı pencerede kıyaslar. Takip algoritmalarının kararlılık üzerindeki etkisini görselleştirir.
-
-
-## 🛠️ Teknik Gereksinimler
-
-Sisteminizde aşağıdaki kütüphanelerin yüklü olduğundan emin olun:
-
+1.  **Depoyu Klonla:**
 ```bash
-pip install ultralytics torch opencv-python numpy filterpy scipy
+git clone [https://github.com/TunahanYlcnn/Yolov8-Kalman.git](https://github.com/TunahanYlcnn/Yolov8-Kalman.git)
+cd Yolov8-Kalman
+```
+---
+
+# 🛰️ YOLOv8-Kalman: Gelişmiş Nesne Takibi ve Durum Tahmini
+
+Bu proje, **YOLOv8** (You Only Look Once) nesne dedektörü ile **Kalman Filtresi**'nin (Kalman Filter) gücünü birleştirerek, videolardaki nesneler için daha kararlı ve kesintisiz bir takip sistemi sunar. Sadece anlık tespitle yetinmeyip, nesnenin bir sonraki konumunu matematiksel olarak tahmin ederek gürültülü verileri temizler ve kısa süreli kayıpları (occlusion) telafi eder.
+
+---
+
+## 🧠 Çalışma Mantığı ve Matematiksel Arka Plan
+
+Sistem, **"Recursive Bayesian Estimation"** prensibiyle çalışır. Her karede şu iki aşamalı döngü tekrarlanır:
+
+### 1. Tahmin (Predict)
+Nesnenin mevcut hızını ve konumunu kullanarak, bir sonraki karede nerede olacağını tahmin eder. Bu aşamada sistemin durum vektörü şu şekilde güncellenir:
+
+$$\hat{x}_{k|k-1} = F_k \hat{x}_{k-1|k-1} + B_k u_k$$
+
+Burada $F_k$ durum geçiş matrisini, $\hat{x}$ ise nesnenin koordinatlarını ($x, y, w, h$) ve hız bileşenlerini temsil eder.
+
+### 2. Güncelleme (Update / Correct)
+YOLOv8'den gelen yeni ölçüm (measurement) verisi ile tahmin edilen veri karşılaştırılır. **Kalman Kazancı (Kalman Gain)** hesaplanarak en doğru konum belirlenir:
+
+$$K_k = P_{k|k-1} H_k^T (H_k P_{k|k-1} H_k^T + R_k)^{-1}$$
+
+Bu sayede, dedektör nesneyi anlık olarak kaçırsa bile Kalman Filtresi nesnenin hareket vektörünü koruyarak takibi sürdürür.
+
+---
+
+## 🛠️ Teknik Özellikler
+
+*   **YOLOv8 Entegrasyonu:** Gerçek zamanlı, yüksek doğruluklu nesne tespiti.
+*   **Doğrusal Tahminleme:** Nesne hareketlerini normalize ederek sarsıntıları (jitter) azaltır.
+*   **Kaybolma Toleransı:** Nesne bir engelin arkasına girdiğinde, filtrenin tahmin yeteneği sayesinde takip kutusu nesneyi beklemeye devam eder.
+*   **Hız Vektörü Analizi:** Nesnenin sadece konumu değil, yönelim ve hızı da takip edilir.
+
+---
+
+## 📋 Gereksinimler
+
+Sistemi çalıştırmak için aşağıdaki kütüphanelerin yüklü olması gerekir:
+```bash
+pip install ultralytics opencv-python numpy filterpy
+```
